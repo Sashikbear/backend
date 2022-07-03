@@ -14,7 +14,7 @@ const usersRouter = require('./routes/users');
 
 const cardsRouter = require('./routes/cards');
 
-const { createUser, login } = require('./conrollers/users');
+const { createUser, login } = require('./controllers/users');
 
 const auth = require('./middleware/auth');
 
@@ -32,17 +32,15 @@ app.options('*', cors());
 
 app.use(helmet());
 
-app.use(auth);
-
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
 
-app.use('/', usersRouter);
+app.use('/', auth, usersRouter);
 
-app.use('/', cardsRouter);
+app.use('/', auth,  cardsRouter);
 
 app.get('/crash-test', () => {
   setTimeout(() => {

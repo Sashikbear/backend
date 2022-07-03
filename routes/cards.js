@@ -1,13 +1,15 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
+const auth = require('../middleware/auth');
+
 const {
   getCards,
   createCard,
   deleteCard,
   likeCard,
   dislikeCard,
-} = require('../conrollers/cards');
+} = require('../controllers/cards');
 
 function validateUrl(string) {
   if (!validator.isURL(string)) {
@@ -16,7 +18,7 @@ function validateUrl(string) {
   return string;
 }
 
-router.get('/cards', getCards);
+router.get('/cards', auth, getCards);
 
 router.post(
   '/cards',
