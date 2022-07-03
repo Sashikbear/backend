@@ -38,10 +38,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
 
-app.use('/', auth, usersRouter);
-
-app.use('/', auth,  cardsRouter);
-
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Server will crash now');
@@ -68,6 +64,10 @@ app.post(
   }),
   createUser,
 );
+
+app.use('/', auth, usersRouter);
+
+app.use('/', auth,  cardsRouter);
 
 app.get('*', (req, res) => {
   res.status(404).send({ message: 'Requested resource not found' });
