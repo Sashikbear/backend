@@ -18,7 +18,7 @@ const { createUser, login } = require('./controllers/users');
 
 const auth = require('./middleware/auth');
 
-const EmailConflictErr = require('../errors/email-conflict-err');
+const EmailConflictErr = require('./errors/email-conflict-err');
 
 require('dotenv').config();
 
