@@ -13,7 +13,7 @@ const getCards = (req, res, next) => {
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
-    // .then((card) => res.status(201).res.send(card))
+    .then(() => res.status(201))
     .catch((err) => {
       if (err.name === 'ValidationError') next(new BadRequestErr('Validation failed. Check your request format'));
       else next(err);
