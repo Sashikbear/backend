@@ -26,7 +26,7 @@ const deleteCard = (req, res, next) => {
       throw new NotFoundErr('The requested card was not found');
     })
     .then((card) => {
-      if (card.owner.equals(req.user._id)) res.send({ data: card });
+      if (card.owner.equals(req.user._id)) res.send({card });
       else {
         throw new ForbiddenErr(
           'You cannot delete a card that does not belong to you',
