@@ -11,7 +11,7 @@ const EmailConflictErr = require('../errors/email-conflict-err');
 
 const getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((users) => res.send(users))
     .catch(next);
 };
 const getCurrentUser = (req, res, next) => {
