@@ -69,7 +69,7 @@ app.post(
 
 app.use('/', auth, usersRouter);
 
-app.use('/', auth,  cardsRouter);
+app.use('/', auth, cardsRouter);
 
 app.get('*', (req, res) => {
   res.status(404).send({ message: 'Requested resource not found' });
@@ -78,7 +78,6 @@ app.get('*', (req, res) => {
 app.use(errorLogger);
 
 app.use(errors());
-
 
 app.use((err, req, res, next) => {
   const { statusCode = 500, message } = err;
