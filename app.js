@@ -20,6 +20,8 @@ const auth = require('./middleware/auth');
 
 const EmailConflictErr = require('./errors/email-conflict-err');
 
+const NotFoundErr = require('./errors/not-found-err')
+
 require('dotenv').config();
 
 const { requestLogger, errorLogger } = require('./middleware/logger');
@@ -27,6 +29,10 @@ const { requestLogger, errorLogger } = require('./middleware/logger');
 const app = express();
 
 const { PORT = 3000 } = process.env;
+
+const limiter = require('./utils/limiter')
+
+app.use(limiter)
 
 app.use(cors());
 
@@ -72,7 +78,7 @@ app.use('/', auth, usersRouter);
 app.use('/', auth, cardsRouter);
 
 app.get('*', (req, res) => {
-  res.status(404).send({ message: 'Requested resource not found' });
+  throw new NotFoundErr("Requested resource not found");
 });
 
 app.use(errorLogger);
