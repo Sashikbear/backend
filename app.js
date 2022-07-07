@@ -30,10 +30,6 @@ const app = express();
 
 const { PORT = 3000 } = process.env;
 
-const limiter = require('./utils/limiter')
-
-app.use(limiter)
-
 app.use(cors());
 
 app.options('*', cors());
