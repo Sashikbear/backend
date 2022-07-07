@@ -45,7 +45,7 @@ const createUser = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') next(new BadRequestErr('Validation failed. Check your request format'));
       else if (err.code === 11000) next(new EmailConflictErr('This email has already been registered'));
-      else next(new Error (`${err.message}`));
+      else next(err);
     });
 };
 
