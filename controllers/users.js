@@ -63,7 +63,7 @@ const updateUser = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') next(new BadRequestErr('Validation failed. Check your request format'));
+      if (err.name === 'BadRequest') next(new BadRequestErr('Validation failed. Check your request format'));
       else next(err);
     });
 };
@@ -82,7 +82,7 @@ const updateUserAvatar = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') next(new BadRequestErr('Invalid avatar link'));
+      if (err.name === 'BadRequest') next(new BadRequestErr('Invalid avatar link'));
       else next(err);
     });
 };
