@@ -15,7 +15,8 @@ const createCard = (req, res, next) => {
   Card.create({ name, link, owner: req.user._id })
     .then((card) => res.status(201).send(card))
     .catch((err) => {
-      if (err.name === 'ValidationError'  || err.code === 400) { next(new BadRequestErr('Validation failed. Check your request format')); } else next(err);
+      if (err.name === 'ValidationError'  || err.code === 400)  next(new BadRequestErr('Validation failed. Check your request format'));
+      else next(err.message);
     });
 };
 
@@ -33,7 +34,7 @@ const deleteCard = (req, res, next) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError'  || err.code === 400) { next(new BadRequestErr('Invalid data.')); } else next(err);
+      if (err.name === 'CastError'  || err.code === 400) next(new BadRequestErr('Invalid data.'));  else next(err.message);
     });
 };
 
@@ -48,7 +49,7 @@ const likeCard = (req, res, next) => {
     })
     .then((cards) => res.status(200).send(cards))
     .catch((err) => {
-      if (err.name === 'CastError'  || err.code === 400) { next(new BadRequestErr('Invalid data.')); } else next(err);
+      if (err.name === 'CastError'  || err.code === 400) { next(new BadRequestErr('Invalid data.')); } else next(err.message);
     });
 };
 
@@ -63,7 +64,7 @@ const dislikeCard = (req, res, next) => {
     })
     .then((cards) => res.status(200).send(cards))
     .catch((err) => {
-      if (err.name === 'CastError'  || err.code === 400) { next(new BadRequestErr('Invalid data.')); } else next(err);
+      if (err.name === 'CastError'  || err.code === 400) { next(new BadRequestErr('Invalid data.')); } else next(err.message);
     });
 };
 
