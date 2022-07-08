@@ -34,7 +34,7 @@ router.post(
 router.delete(
   '/cards/:cardId',
   celebrate({
-    params: Joi.object().keys({
+    body: Joi.object().keys({
       _id: Joi.string().hex().length(24),
     }),
   }),
