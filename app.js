@@ -92,6 +92,7 @@ app.use((err, req, res, next) => {
  else  {res.status(err.statusCode).send({
     message: err.statusCode === 500 ? 'An error occurred on the server' : err.message,
   });}
+  next();
 });
 
 mongoose.connect('mongodb://localhost:27017/aroundb', {
