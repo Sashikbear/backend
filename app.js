@@ -20,7 +20,9 @@ const auth = require('./middleware/auth');
 
 const EmailConflictErr = require('./errors/email-conflict-err');
 
-const NotFoundErr = require('./errors/not-found-err')
+const NotFoundErr = require('./errors/not-found-err');
+
+const { limiter } = require('./utils/limiter');
 
 require('dotenv').config();
 
@@ -35,6 +37,8 @@ app.use(cors());
 app.options('*', cors());
 
 app.use(helmet());
+
+app.use(limiter);
 
 app.use(bodyParser.json());
 
@@ -73,31 +77,24 @@ app.use('/', auth, usersRouter);
 
 app.use('/', auth, cardsRouter);
 
-app.get('*', (req, res) => {
-  throw new NotFoundErr("Requested resource not found");
+app.get('*', () => {
+  throw new NotFoundErr('Requested resource not found');
 });
 
 app.use(errorLogger);
 
 app.use(errors());
+
 app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  const message =
-    statusCode === 500 ? 'An error has occurred on the server' : err.message;
-  res.status(statusCode).send({ message });
+  const { statusCode = 500, message } = err;
+  if (err.name === 'MongoError' || err.code === 11000) {
+    throw new EmailConflictErr('An error occurred on the database');
+  }
+  res.status(statusCode).send({
+    message: statusCode === 500 ? 'An error occurred on the server' : message,
+  });
   next();
 });
-
-// app.use((err, req, res, next) => {
-//   const { statusCode = 500, message } = err;
-//   if (err.name === 'MongoError' || err.code === 11000) {
-//     throw new EmailConflictErr('An error occurred on the database');
-//   }
-//   res.status(statusCode).send({
-//     message: statusCode === 500 ? 'An error occurred on the server' : message,
-//   });
-//   next();
-// });
 
 mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,

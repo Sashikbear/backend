@@ -43,9 +43,7 @@ const createUser = (req, res, next) => {
       avatar: user.avatar,
     }))
     .catch((err) => {
-      if (err.name === 'ValidationError') {next(new BadRequestErr('Validation failed. Check your request format'));}
-      else if (err.code === 11000 || err.name === 'MongoError') {next(new EmailConflictErr('This email has already been registered'));}
-      else next(err);
+      if (err.name === 'ValidationError') { next(new BadRequestErr('Validation failed. Check your request format')); } else if (err.code === 11000 || err.name === 'MongoError') { next(new EmailConflictErr('This email has already been registered')); } else next(err);
     });
 };
 
@@ -63,8 +61,7 @@ const updateUser = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {next(new BadRequestErr('Validation failed. Check your request format'));}
-      else next(err);
+      if (err.name === 'ValidationError') { next(new BadRequestErr('Validation failed. Check your request format')); } else next(err);
     });
 };
 const updateUserAvatar = (req, res, next) => {
@@ -82,8 +79,7 @@ const updateUserAvatar = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {next(new BadRequestErr('Invalid avatar link'));}
-      else next(err);
+      if (err.name === 'ValidationError') { next(new BadRequestErr('Invalid avatar link')); } else next(err);
     });
 };
 const login = (req, res, next) => {
