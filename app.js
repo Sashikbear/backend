@@ -77,7 +77,6 @@ app.get('*', (req, res) => {
   throw new NotFoundErr("Requested resource not found");
 });
 
-
 app.use(errorLogger);
 
 app.use(errors());
