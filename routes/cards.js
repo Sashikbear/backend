@@ -31,15 +31,11 @@ router.post(
   createCard,
 );
 
-router.delete(
-  '/cards/:cardId',
-  celebrate({
-    body: Joi.object().keys({
-      _id: Joi.string().hex().length(24),
-    }),
-  }),
-  deleteCard,
-);
+router.delete('/cards/:cardId', celebrate({
+  params: Joi.object().keys({
+    cardId: Joi.string().hex().length(24),
+  }).unknown(true),
+}), deleteCard);
 
 router.put(
   '/cards/:cardId/likes',
