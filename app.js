@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const {
-  celebrate, Joi, errors,
+  celebrate, Joi, errors, isCelebrateError
 } = require('celebrate');
 
 const cors = require('cors');
@@ -20,7 +20,7 @@ const { createUser, login } = require('./controllers/users');
 
 const auth = require('./middleware/auth');
 
-const EmailConflictErr = require('./errors/email-conflict-err');
+const BadRequestErr = require('./errors//bad-request-err');
 
 const NotFoundErr = require('./errors/not-found-err');
 
@@ -84,10 +84,11 @@ app.use(errorLogger);
 app.use(errors());
 
 app.use((err, req, res, next) => {
-  if (err.name === 'MongoError' || err.code === 11000) {
-    throw new EmailConflictErr('An error occurred on the database');
+  if (isCelebrateError(err)) {
+    throw new BadRequestError(
+      'Request cannot be completed at this time.'
+    );
   }
-
   res.status(err.statusCode).send({
     message: err.statusCode === 500 ? 'An error occurred on the server' : err.message,
   });
