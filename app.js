@@ -28,6 +28,8 @@ const app = express();
 
 const { PORT = 3000 } = process.env;
 
+const limiter = require('./utils/limiter')
+
 app.use(cors());
 
 app.options('*', cors());
@@ -89,6 +91,9 @@ app.use((err, req, res, next) => {
   });
   next();
 });
+
+app.use(limiter)
+
 mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
 });
