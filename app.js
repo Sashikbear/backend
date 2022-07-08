@@ -26,6 +26,8 @@ require('dotenv').config();
 
 const { requestLogger, errorLogger } = require('./middleware/logger');
 
+const { isCelebrateError } = require('celebrate');
+
 const app = express();
 
 const { PORT = 3000 } = process.env;
@@ -84,6 +86,10 @@ app.use(errors());
 app.use((err, req, res, next) => {
   if (err.name === 'MongoError' || err.code === 11000) {
     throw new EmailConflictErr('An error occurred on the database');
+  }
+  if (isCelebrateError(err)) {
+    statusCode = 400;
+    message = 'Invalid input. Validation error.';
   }
   res.status(err.statusCode).send({
     message: err.statusCode === 500 ? 'An error occurred on the server' : err.message,
