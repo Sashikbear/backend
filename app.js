@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const {
-  celebrate, Joi, errors, isCelebrateError
+  celebrate, Joi, errors, isCelebrateError,
 } = require('celebrate');
 
 const cors = require('cors');
@@ -20,7 +20,7 @@ const { createUser, login } = require('./controllers/users');
 
 const auth = require('./middleware/auth');
 
-const BadRequestErr = require('./errors//bad-request-err');
+const BadRequestErr = require('./errors/bad-request-err');
 
 const NotFoundErr = require('./errors/not-found-err');
 
@@ -85,8 +85,8 @@ app.use(errors());
 
 app.use((err, req, res, next) => {
   if (isCelebrateError(err)) {
-    throw new BadRequestError(
-      'Request cannot be completed at this time.'
+    throw new BadRequestErr(
+      'Request cannot be completed at this time.',
     );
   }
   res.status(err.statusCode).send({
