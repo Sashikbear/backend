@@ -92,7 +92,7 @@ app.use((err, req, res, next) => {
   next();
 });
 
-app.use(limiter)
+app.use('/api', limiter)
 
 mongoose.connect('mongodb://localhost:27017/aroundb', {
   useNewUrlParser: true,
