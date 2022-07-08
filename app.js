@@ -22,8 +22,6 @@ const EmailConflictErr = require('./errors/email-conflict-err');
 
 const NotFoundErr = require('./errors/not-found-err');
 
-const { limiter } = require('./utils/limiter');
-
 require('dotenv').config();
 
 const { requestLogger, errorLogger } = require('./middleware/logger');
@@ -37,8 +35,6 @@ app.use(cors());
 app.options('*', cors());
 
 app.use(helmet());
-
-app.use(limiter);
 
 app.use(bodyParser.json());
 
